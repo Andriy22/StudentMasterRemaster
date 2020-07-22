@@ -79,4 +79,8 @@ export class AdminService {
   public addNew(title: string, text: string) {
     return this.http.post(API + '/api/Admin/add-new/', { Title: title, Text: text });
   }
+
+  public createClass(name) {
+    return this.http.get(API + '/api/Admin/create-class/' + name);
+  }
 }

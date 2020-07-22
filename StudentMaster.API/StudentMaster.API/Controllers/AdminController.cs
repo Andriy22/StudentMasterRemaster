@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentMaster.BLL.DTO.dtoModels;
+using StudentMaster.BLL.Helpers;
 using StudentMaster.BLL.Interfaces;
 
 namespace StudentMaster.API.Controllers
@@ -16,10 +17,13 @@ namespace StudentMaster.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService  _adminService;
+        private readonly IClassService _classService;
 
-        public AdminController(IAdminService adminService)
+
+        public AdminController(IAdminService adminService, IClassService classService)
         {
             _adminService = adminService;
+            _classService = classService;
         }
 
         [HttpGet("get-all-classes")]
@@ -173,6 +177,23 @@ namespace StudentMaster.API.Controllers
 
             return Ok(await _adminService.getStudentClassAndAllClasses(uid));
         }
+
+        [HttpGet("create-class/{name}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult createClass(string name)
+        {
+
+            try
+            {
+                _classService.createClass(name);
+                return Ok(new { msg = "Ok" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(ErrorHelper.GetException("Class name [" + name + "] is used", "red", "Error").Data["ERROR"]);
+            }
+        }
+
 
         [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
         [Authorize(Roles = "Admin")]

@@ -2,7 +2,10 @@
   (selectedIndexChange)="onChange($event)"
   mat-align-tabs="center"
   animationDuration="2000ms"
+  [selectedIndex]="selectedClass"
 >
+  <mat-tab label="Створити класс"> </mat-tab>
+
   <mat-tab *ngFor="let item of this.classes" label="{{ item.name }}">
     <div class="container-fluid">
       <!-- <button
