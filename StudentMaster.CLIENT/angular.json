@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "StudentMaster": {
+    "ClientApp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/StudentMaster",
+            "outputPath": "dist/ClientApp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -96,23 +96,23 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "StudentMaster:build",
+            "browserTarget": "ClientApp:build",
             "proxyConfig": "proxy.config.js"
           },
           "configurations": {
             "production": {
-              "browserTarget": "StudentMaster:build:production"
+              "browserTarget": "ClientApp:build:production"
             },
             "hmr": {
               "hmr": true,
-              "browserTarget": "StudentMaster:build:hmr"
+              "browserTarget": "ClientApp:build:hmr"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "StudentMaster:build"
+            "browserTarget": "ClientApp:build"
           }
         },
         "test": {
@@ -149,19 +149,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "StudentMaster:serve"
+            "devServerTarget": "ClientApp:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "StudentMaster:serve:production"
+              "devServerTarget": "ClientApp:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "StudentMaster",
+  "defaultProject": "ClientApp",
   "cli": {
-    "analytics": "4a039eea-b935-4ef0-a1be-ea2998ad93fb"
+    "analytics": "4595952a-5864-4399-a178-9b10c14aa0ef"
   }
 }

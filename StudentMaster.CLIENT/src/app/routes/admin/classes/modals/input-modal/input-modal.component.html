@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Клас</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Введіть назву класу</mat-label>
+    <input matInput [(ngModel)]="data.class" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Скасувати</button>
+  <button mat-button [mat-dialog-close]="data.class" cdkFocusInitial>Ок</button>
+</div>

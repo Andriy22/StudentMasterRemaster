@@ -1,52 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '@core';
-import { IAppState } from '@core/redux/state/app.state';
-import { Store } from '@ngrx/store';
-import { Logout, Authorize } from '@core/redux/actions/auth.actions';
+import { Router } from '@angular/router';
+import { TokenService, StartupService, SettingsService } from '@core';
+import { AuthService } from '@shared/services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  reactiveForm: FormGroup;
+  loginForm: FormGroup;
   isLoading = false;
-
   constructor(
-    private fb: FormBuilder,
-    private store: Store<IAppState>,
-    private router: Router,
-    private route: ActivatedRoute
+    private _fb: FormBuilder,
+    private _router: Router,
+    private _auth: AuthService,
+    private _startup: StartupService,
+    private _settings: SettingsService
   ) {
-    this.reactiveForm = this.fb.group({
-      username: ['', [Validators.required]],
+    this.loginForm = this._fb.group({
+      username: ['', [Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  ngOnInit() {
-    this.store.dispatch(new Logout());
-  }
-  Test() {
-    alert('clicked');
-  }
-  login() {
-    const data = this.reactiveForm.value;
-    this.store.dispatch(new Authorize(data));
+  ngOnInit() {}
 
-    // tslint:disable-next-line: no-shadowed-variable
-    this.store.select('auth').subscribe(data => {
-      this.isLoading = data.isLoading;
-      if (data.isAuthorize && data.user) {
-        if (this.route.snapshot.queryParamMap.get('returnUrl')) {
-          this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-        } else {
-          this.router.navigate(['/']);
-        }
-      }
-    });
-    // this.router.navigateByUrl('/');
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  login() {
+    this.isLoading = true;
+
+    this._auth.login(this.username.value, this.password.value).subscribe(
+      _ => {
+        this.isLoading = false;
+        this._router.navigate(['/']);
+      },
+      _ => (this.isLoading = false)
+    );
   }
 }

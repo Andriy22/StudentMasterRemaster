@@ -7,6 +7,8 @@ export interface AppSettings {
   showUserPanel?: boolean;
   sidenavOpened?: boolean;
   sidenavCollapsed?: boolean;
+  language?: string;
+  debugMode?: boolean;
 }
 
 export const defaults: AppSettings = {
@@ -14,8 +16,10 @@ export const defaults: AppSettings = {
   theme: 'dark',
   dir: 'ltr',
   showHeader: true,
-  headerPos: 'fixed',
-  showUserPanel: true,
+  headerPos: 'above',
+  showUserPanel: false,
   sidenavOpened: true,
   sidenavCollapsed: false,
+  language: 'en-US',
+  debugMode: true,
 };
