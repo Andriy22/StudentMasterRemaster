@@ -1,48 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TokenService, StartupService, SettingsService } from '@core';
-import { AuthService } from '@shared/services/auth.service';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '@core';
+import { IAppState } from '@core/redux/state/app.state';
+import { Store } from '@ngrx/store';
+import { Logout, Authorize } from '@core/redux/actions/auth.actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  reactiveForm: FormGroup;
   isLoading = false;
+
   constructor(
-    private _fb: FormBuilder,
-    private _router: Router,
-    private _auth: AuthService,
-    private _startup: StartupService,
-    private _settings: SettingsService
+    private fb: FormBuilder,
+    private store: Store<IAppState>,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    this.loginForm = this._fb.group({
-      username: ['', [Validators.email]],
+    this.reactiveForm = this.fb.group({
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
-  ngOnInit() {}
-
-  get username() {
-    return this.loginForm.get('username');
+  ngOnInit() {
+    this.store.dispatch(new Logout());
   }
-
-  get password() {
-    return this.loginForm.get('password');
+  Test() {
+    alert('clicked');
   }
-
   login() {
-    this.isLoading = true;
+    const data = this.reactiveForm.value;
+    this.store.dispatch(new Authorize(data));
 
-    this._auth.login(this.username.value, this.password.value).subscribe(
-      _ => {
-        this.isLoading = false;
-        this._router.navigate(['/']);
-      },
-      _ => (this.isLoading = false)
-    );
+    // tslint:disable-next-line: no-shadowed-variable
+    this.store.select('auth').subscribe(data => {
+      this.isLoading = data.isLoading;
+      if (data.isAuthorize && data.user) {
+        if (this.route.snapshot.queryParamMap.get('returnUrl')) {
+          this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
+    });
+    // this.router.navigateByUrl('/');
   }
 }

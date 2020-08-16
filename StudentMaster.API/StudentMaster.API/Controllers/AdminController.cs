@@ -193,7 +193,21 @@ namespace StudentMaster.API.Controllers
                 return BadRequest(ErrorHelper.GetException("Class name [" + name + "] is used", "red", "Error").Data["ERROR"]);
             }
         }
+        [HttpGet("change-class-name/{oldName}/{newName}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult createClass(string oldName, string newName)
+        {
 
+            try
+            {
+                _classService.changeNameClass(oldName, newName);
+                return Ok(new { msg = "Ok" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(ErrorHelper.GetException("Клас [" + oldName + "] не знайдено або клас [" + newName + " уже iснує]", "Error").Data["ERROR"]);
+            }
+        }
 
         [HttpGet("edit-teachers-in-class/{classId}/{teacherId}")]
         [Authorize(Roles = "Admin")]
@@ -285,12 +299,13 @@ namespace StudentMaster.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> editRolesInUser(string uid, string role)
         {
+            Thread.Sleep(1500);
             try
             {
                 if (await _adminService.editRoleOfUser(uid, role))
                     return Ok(new { msg = "Ok" });
                 else
-                    return BadRequest();
+                    return BadRequest("Error");
             }
             catch (Exception e)
             {

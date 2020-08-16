@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { MenuService } from '@core/bootstrap/menu.service';
+import { Component, OnInit, ViewEncapsulation, Input, HostBinding } from '@angular/core';
+import { MenuService } from '@core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,24 +14,12 @@ import { Router } from '@angular/router';
 export class PageHeaderComponent implements OnInit {
   @Input() title = '';
   @Input() subtitle = '';
-  @Input() nav: string[] = [];
   @Input() showBreadCrumb = true;
 
-  constructor(private _router: Router, private _menu: MenuService) {}
-
-  ngOnInit() {
-    this.nav = Array.isArray(this.nav) ? this.nav : [];
-
-    if (this.nav.length === 0) {
-      this.genBreadcrumb();
-    }
-
-    this.title = this.title || this.nav[this.nav.length - 1];
+  constructor(private router: Router, private menuService: MenuService) {
+    const states = this.router.url.slice(1).split('/');
+    this.title = this.menuService.getMenuItemName(states);
   }
 
-  genBreadcrumb() {
-    const states = this._router.url.slice(1).split('/');
-    this.nav = this._menu.getMenuLevel(states);
-    this.nav.unshift('home');
-  }
+  ngOnInit() {}
 }

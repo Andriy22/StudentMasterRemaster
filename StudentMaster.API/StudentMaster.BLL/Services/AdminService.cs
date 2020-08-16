@@ -240,9 +240,12 @@ namespace StudentMaster.BLL.Services
                 return true;
             } else
             {
-                await _userManager.AddToRoleAsync(user, r.Name);
-                return true;
+                var res = await _userManager.AddToRoleAsync(user, r.Name);
+
+                if (res.Succeeded)
+                    return true;       
             }
+            return false;
              
            
         }

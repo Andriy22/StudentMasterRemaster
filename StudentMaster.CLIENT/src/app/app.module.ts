@@ -1,6 +1,7 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -8,65 +9,68 @@ import { ThemeModule } from './theme/theme.module';
 import { RoutesModule } from './routes/routes.module';
 import { AppComponent } from './app.component';
 
-import { DefaultInterceptor } from '@core';
-import { StartupService } from '@core';
-export function StartupServiceFactory(startupService: StartupService) {
-  return () => startupService.load();
-}
+// import { DefaultInterceptor } from '@core';
+// import { StartupService } from '@core';
+// export function StartupServiceFactory(startupService: StartupService) {
+//   return () => startupService.load();
+// }
 
 import { FormlyModule } from '@ngx-formly/core';
 import { ToastrModule } from 'ngx-toastr';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// Required for AOT compilation
-export function TranslateHttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
-import { TranslateLangService } from '@core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-export function TranslateLangServiceFactory(translateLangService: TranslateLangService) {
-  return () => translateLangService.load();
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { JwtModule } from '@auth0/angular-jwt';
+import { JWT_TOKEN, JwtInterceptor } from '@core';
+import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '@core/redux/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effects } from '@core/redux/effects';
+import { NgApexchartsModule } from 'ng-apexcharts';
+// import { NgApexchartsModule } from 'ng-apexcharts';
+export function tokenGetter() {
+  return localStorage.getItem(JWT_TOKEN);
 }
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
+    NgxSpinnerModule,
     HttpClientModule,
     CoreModule,
     SharedModule,
+    NgApexchartsModule,
     ThemeModule,
     RoutesModule,
     FormlyModule.forRoot(),
     ToastrModule.forRoot(),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: TranslateHttpLoaderFactory,
-        deps: [HttpClient],
+
+    // NgApexchartsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        whitelistedDomains: ['localhost:44333'],
+        blacklistedRoutes: ['localhost:44333/api/auth'],
       },
     }),
-    BrowserAnimationsModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: DefaultInterceptor,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: TranslateLangServiceFactory,
-      deps: [TranslateLangService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: StartupServiceFactory,
-      deps: [StartupService],
-      multi: true,
-    },
+    // { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // StartupService,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: StartupServiceFactory,
+    //   deps: [StartupService],
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent],
 })

@@ -54,7 +54,7 @@ namespace StudentMaster.API
             });
            
             services.AddDbContext<DBContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("StudentMaster.API")));
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => { b.EnableRetryOnFailure(); b.MigrationsAssembly("StudentMaster.API"); }));
             services.AddDefaultIdentity<User>()
                    .AddRoles<IdentityRole>()
                    .AddEntityFrameworkStores<DBContext>();
