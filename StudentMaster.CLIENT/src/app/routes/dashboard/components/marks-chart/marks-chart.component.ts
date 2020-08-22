@@ -5,9 +5,10 @@ import {
   OnDestroy,
   NgZone,
   ChangeDetectorRef,
+  ViewChild,
 } from '@angular/core';
 import { MarksService } from '@shared/services/marks.service';
-import { marksForChartResult } from '@shared/models/markForChart';
+import { marksForChartResult, MarksForChart } from '@shared/models/markForChart';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -18,6 +19,7 @@ import {
   ApexDataLabels,
   ApexStroke,
   ApexGrid,
+  ChartComponent,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -38,23 +40,18 @@ export type ChartOptions = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarksChartComponent implements OnInit, OnDestroy {
-  chart1: ChartOptions = null;
+  @ViewChild('chartObj') chart: ChartComponent;
+  public ChartOptions: ChartOptions;
+
   data: any = null;
+  isLoaded = false;
 
   constructor(
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private marksService: MarksService
-  ) {}
-
-  ngOnInit() {
-    this.marksService.getMyMarkForChart().subscribe((data: marksForChartResult) => {
-      this.initChart(data.marks, data.dates);
-    });
-  }
-
-  generateChart(series: any[], dates: any[]) {
-    const chart: ChartOptions = {
+  ) {
+    this.ChartOptions = {
       legend: {
         show: true,
         position: 'top',
@@ -85,10 +82,15 @@ export class MarksChartComponent implements OnInit, OnDestroy {
       stroke: {
         width: 10,
       },
-      series,
+      series: [
+        {
+          name: 'Init',
+          data: [12],
+        },
+      ],
       xaxis: {
         type: 'datetime',
-        categories: dates,
+        categories: ['08.22.2020'],
       },
       grid: {
         xaxis: {
@@ -103,13 +105,18 @@ export class MarksChartComponent implements OnInit, OnDestroy {
         },
       },
     };
-
-    return chart;
   }
 
-  initChart(siries: any, dates: any): any {
-    this.chart1 = this.generateChart([...siries], [...dates]);
+  ngOnInit() {
+    this.marksService.getMyMarkForChart().subscribe((data: marksForChartResult) => {
+      this.updateSeries(data.marks, data.dates);
+    });
   }
 
+  public updateSeries(series: MarksForChart[], dates: string[]) {
+    this.ChartOptions.series = series;
+    this.ChartOptions.xaxis.categories = dates;
+    this.chart.updateOptions(this.ChartOptions);
+  }
   ngOnDestroy() {}
 }

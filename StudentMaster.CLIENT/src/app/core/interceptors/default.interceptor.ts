@@ -16,6 +16,7 @@ import { AuthUserModel } from '@shared/models/auth-user.model';
 import { AuthService } from '@shared/services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToolsService } from '@shared/services/tools.service';
+import { SettingsService } from '@core/bootstrap/settings.service';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
@@ -34,19 +35,24 @@ export class DefaultInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Check if the user is logging in for the first time
     this._spinner.show();
+    this._tools.showDetails('ACTION', 'SHOW LOADER', 'yellow');
+    this._tools.showDetails('REQUEST', request, 'green');
     return next.handle(this.attachTokenToRequest(request)).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          console.log('Success');
+          this._tools.showDetails('RESPONSE', event, 'green');
         }
       }),
-      finalize(() => this._spinner.hide()),
+      finalize(() => {
+        this._spinner.hide();
+        this._tools.showDetails('ACTION', 'HIDE LOADER');
+      }),
       catchError(
         (error): Observable<any> => {
           if (error instanceof HttpErrorResponse) {
             switch ((error as HttpErrorResponse).status) {
               case 401:
-                console.log('Token expired. Attempting refresh ...');
+                this._tools.showDetails('ACTION', 'UPDATE JWT TOKEN', 'yellow');
                 return this.handleHttpResponseError(request, next);
             }
             return throwError(this.handleError(error as HttpErrorResponse));
@@ -66,17 +72,18 @@ export class DefaultInterceptor implements HttpInterceptor {
       errorString = error.error.message;
     }
     if (error.status === 403) {
+      this._tools.showDetails('ERROR', 'Відмова в доступі', 'red');
       this.router.navigate(['/sessions/403']);
     }
     if (error.error !== null) {
       if (error.error.action === 'relogin') {
-        errorString = 'Please relogin!!!';
+        errorString = 'Перезайдіть в особистий кабінет!!!';
         this.AuthService.logout();
       }
     }
     // SHOW ERROR
     this._tools.showNotification(errorString);
-
+    this._tools.showDetails('ERROR', errorString, 'red');
     return throwError(error);
   }
 

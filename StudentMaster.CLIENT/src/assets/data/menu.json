@@ -2,14 +2,10 @@
   "menu": [
     {
       "route": "dashboard",
-      "name": "dashboard",
+      "name": "Головна",
       "type": "link",
       "icon": "dashboard",
-      "roles": ["User", "Admin", "Teacher"],
-      "badge": {
-        "color": "red-500",
-        "value": "5"
-      }
+      "roles": ["User"]
     },
     {
       "route": "teacher",
@@ -50,30 +46,6 @@
         {
           "route": "console",
           "name": "Консоль",
-          "type": "link"
-        }
-      ]
-    },
-    {
-      "route": "sessions",
-      "name": "sessions",
-      "type": "sub",
-      "roles": ["Admin"],
-      "icon": "question_answer",
-      "children": [
-        {
-          "route": "403",
-          "name": "403",
-          "type": "link"
-        },
-        {
-          "route": "404",
-          "name": "404",
-          "type": "link"
-        },
-        {
-          "route": "500",
-          "name": "500",
           "type": "link"
         }
       ]

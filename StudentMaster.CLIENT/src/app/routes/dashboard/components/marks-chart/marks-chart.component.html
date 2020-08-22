@@ -4,14 +4,15 @@
     <mat-card-content>
       <div style="text-align:center">
         <apx-chart
-          [series]="chart1.series"
-          [chart]="chart1.chart"
-          [xaxis]="chart1.xaxis"
-          [theme]="chart1.theme"
-          [legend]="chart1.legend"
-          [dataLabels]="chart1.dataLabels"
-          [stroke]="chart1.stroke"
-          [grid]="chart1.grid"
+          #chartObj
+          [series]="ChartOptions.series"
+          [chart]="ChartOptions.chart"
+          [xaxis]="ChartOptions.xaxis"
+          [theme]="ChartOptions.theme"
+          [legend]="ChartOptions.legend"
+          [dataLabels]="ChartOptions.dataLabels"
+          [stroke]="ChartOptions.stroke"
+          [grid]="ChartOptions.grid"
         ></apx-chart>
       </div>
     </mat-card-content>

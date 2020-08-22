@@ -19,9 +19,7 @@ import { SettingsService } from '@core';
 })
 export class TranslateComponent {
   langs = {
-    'en-US': 'English',
-    'zh-CN': '中文简体',
-    'zh-TW': '中文繁体',
+    'en-US': 'Українська',
   };
 
   constructor(private _translate: TranslateService, private _settings: SettingsService) {
@@ -33,7 +31,7 @@ export class TranslateComponent {
   }
 
   useLanguage(language: string) {
-    this._translate.use(language);
-    this._settings.setLanguage(language);
+    // this._translate.use(language);
+    // this._settings.setLanguage(language);
   }
 }

@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import * as screenfull from 'screenfull';
+import { AuthService } from '@shared/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
     return screenfull as screenfull.Screenfull;
   }
 
-  constructor() {}
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {}
 
