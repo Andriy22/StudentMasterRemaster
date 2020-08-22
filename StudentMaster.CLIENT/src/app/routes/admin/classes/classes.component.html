@@ -11,43 +11,53 @@
       <button
         mat-stroked-button
         color="accent"
-        style="margin:1rem;"
+        style="margin:0.2rem;"
         (click)="this.editName(item.name)"
-        class="cell-md-3 cell-12"
+        class="col-md-3 col-12"
       >
         Змінити назву
       </button>
 
       <button
         mat-stroked-button
+        color="primary"
+        style="margin:0.2rem;"
+        (click)="this.addUser(item.id)"
+        class="col-md-3 col-12"
+      >
+        Додати учня
+      </button>
+
+      <button
+        mat-stroked-button
+        color="accent"
+        style="margin:0.2rem;"
+        (click)="this.editSubjects()"
+        class="col-md-3 col-12"
+      >
+        Редагувати предмети
+      </button>
+      <button
+        mat-stroked-button
+        color="accent"
+        style="margin:0.2rem;"
+        (click)="this.editTeachers()"
+        class="col-md-3 col-12"
+      >
+        Редагувати вчителів
+      </button>
+      <button
+        mat-raised-button
         color="warn"
-        style="margin:1rem;"
-        (click)="this.editName(item.name)"
-        class="cell-md-3 cell-12"
+        style="margin:0.2rem;"
+        (click)="this.delete(item.name)"
+        class="col-md-3 col-12"
       >
         Видалити
       </button>
-      <!-- 
-      <button
-        mat-stroked-button
-        color="accent"
-        style="margin:1rem;"
-        (click)="this.editSubjects()"
-        class="cell-md-3 cell-12"
-      >
-        Edit subjects
-      </button>
-      <button
-        mat-stroked-button
-        color="accent"
-        style="margin:1rem;"
-        (click)="this.editTeachers()"
-        class="cell-md-3 cell-12"
-      >
-        Edit teachers
-      </button> -->
       <br />
-      <table mat-table [dataSource]="dataSource">
+      <mat-divider style="margin: 1rem;"></mat-divider>
+      <table mat-table [dataSource]="dataSource" class="col-12">
         <!-- Position Column -->
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -56,7 +66,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="PIB">
-          <th mat-header-cell *matHeaderCellDef>PIB</th>
+          <th mat-header-cell *matHeaderCellDef>ПІБ</th>
           <td mat-cell *matCellDef="let element">
             <p *ngIf="element.pib">{{ element.pib }}</p>
             <strong *ngIf="element.pib.trim().length == 0">[UNKNOWN]</strong>
@@ -68,10 +78,10 @@
             <button
               style="margin: 1rem;"
               (click)="this.removeFromClass(element.id)"
-              mat-raised-button
+              mat-button
               color="warn"
             >
-              Remove from class
+              Видалити з класу
             </button>
           </td>
         </ng-container>

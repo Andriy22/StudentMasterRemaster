@@ -1,0 +1,19 @@
+<div class="matero-col" fxFlex.gt-sm="100" fxFlex="100">
+  <mat-card>
+    <mat-card-subtitle>Прогрес</mat-card-subtitle>
+    <mat-card-content>
+      <div style="text-align:center">
+        <apx-chart
+          [series]="chart1.series"
+          [chart]="chart1.chart"
+          [xaxis]="chart1.xaxis"
+          [theme]="chart1.theme"
+          [legend]="chart1.legend"
+          [dataLabels]="chart1.dataLabels"
+          [stroke]="chart1.stroke"
+          [grid]="chart1.grid"
+        ></apx-chart>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

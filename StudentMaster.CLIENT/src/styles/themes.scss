@@ -14,8 +14,10 @@ $accent: mat-palette($mat-pink, A200, A100, A400);
 $warn: mat-palette($mat-red);
 $theme: mat-light-theme($primary, $accent, $warn);
 
-$config: mat-typography-config();
-
+$custom-typography: mat-typography-config(
+  $font-family: '"Pangolin", sans-serif;',
+);
+@include mat-core($custom-typography);
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.

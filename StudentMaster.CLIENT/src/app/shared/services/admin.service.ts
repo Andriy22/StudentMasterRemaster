@@ -7,6 +7,7 @@ import { TeacherModel } from '@shared/models/teacher-model';
 import { Pagination } from '@shared/models/pagination.model';
 import { StudentModel } from '@shared/models/student-model';
 import { StudentClass } from '@shared/models/student-class.model';
+import { RegisterModel } from '@shared/models/register.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,16 @@ export class AdminService {
   public getAllClasses() {
     return this.http.get<ClassModel[]>(API + '/api/Admin/get-all-classes');
   }
+
+  // this method will be removed
   public inviteUser(email, classId) {
     return this.http.get(API + '/api/Admin/invite-user/' + email + '/' + classId);
   }
+
+  public registerUser(user: RegisterModel) {
+    return this.http.post(API + '/api/Account/create-account', user);
+  }
+
   public removeStudentFromClass(studentId) {
     return this.http.get(API + '/api/Admin/remove-student-from-class/' + studentId);
   }
@@ -85,5 +93,8 @@ export class AdminService {
   }
   public changeClassName(oldName, newName) {
     return this.http.get(API + '/api/Admin/change-class-name/' + oldName + '/' + newName);
+  }
+  public deleteClass(name) {
+    return this.http.get(API + '/api/Admin/delete-class/' + name);
   }
 }

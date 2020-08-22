@@ -117,8 +117,8 @@ namespace StudentMaster.API.Controllers
             {
                 if (await this._accountService.createAccount(model))
                     return Ok(new { msg = "Account created" });
-                else
-                    return BadRequest();
+
+                return BadRequest();
             }
             catch (Exception e)
             {

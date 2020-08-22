@@ -69,9 +69,7 @@ namespace StudentMaster.BLL.Services
             var mark = _markRepository.GetQueryable(x => x.Owner.Id == model.uid &&
                                                    x.Teacher.Id == teacherID &&
                                                    x.Subject.Id == subject.Id &&
-                                                   x.Date.Year  == model.date.Year &&
-                                                   x.Date.Month == model.date.Month &&
-                                                   x.Date.Day == model.date.Year)
+                                                   x.Date == model.date)
                                                         .Include(x => x.Teacher)
                                                         .Include(x => x.Subject)
                                                         .Include(x => x.Owner).Select(x => x).FirstOrDefault();
@@ -115,10 +113,7 @@ namespace StudentMaster.BLL.Services
                                                     x.Teacher.Id == teacherID &&
 
                                                     x.Subject.Id == Convert.ToInt32(model.subjectId) &&
-
-                                                   x.Date.Year == model.date.Year &&
-                                                   x.Date.Month == model.date.Month &&
-                                                   x.Date.Day == model.date.Year)
+                                                    x.Date == model.date)
                                                          .Include(x => x.Teacher)
                                                          .Include(x => x.Subject)
                                                          .Include(x => x.Owner).Select(x=>x.Value);

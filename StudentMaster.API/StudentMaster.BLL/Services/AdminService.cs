@@ -136,7 +136,7 @@ namespace StudentMaster.BLL.Services
         {
             var result = new List<subjectResult>();
 
-            foreach (var el in await _subjectRepository.GetAsync())
+            foreach (var el in await _subjectRepository.GetQueryable(x=>x.isDeleted == false).ToListAsync())
                 result.Add(new subjectResult() { id = el.Id, Name = el.Name });
             return result;
         }

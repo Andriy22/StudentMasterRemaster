@@ -13,7 +13,7 @@ import { StartupService } from '@core';
 export function StartupServiceFactory(startupService: StartupService) {
   return () => startupService.load();
 }
-
+import { ChartsModule } from 'ng2-charts';
 import { FormlyModule } from '@ngx-formly/core';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -22,7 +22,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export function TranslateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { TranslateLangService } from '@core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export function TranslateLangServiceFactory(translateLangService: TranslateLangService) {
@@ -37,7 +37,9 @@ export function TranslateLangServiceFactory(translateLangService: TranslateLangS
     CoreModule,
     SharedModule,
     ThemeModule,
+    ChartsModule,
     RoutesModule,
+    NgApexchartsModule,
     FormlyModule.forRoot(),
     ToastrModule.forRoot(),
     TranslateModule.forRoot({

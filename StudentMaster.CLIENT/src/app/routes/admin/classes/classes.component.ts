@@ -5,6 +5,11 @@ import { ClassModel } from '@shared/models/classes-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MtxDialog } from '@ng-matero/extensions';
 import { InputModalComponent } from './modals/input-modal/input-modal.component';
+import { CreateUserComponent } from '../users/modals/create-user/create-user.component';
+import { ToolsService } from '@shared/services/tools.service';
+import { EditSubjectsInClassComponent } from './modals/edit-subjects-in-class/edit-subjects-in-class.component';
+import { EditTeachersInClassComponent } from './modals/edit-teachers-in-class/edit-teachers-in-class.component';
+import { ClassesService } from '@shared/services/classes.service';
 
 @Component({
   selector: 'app-admin-classes',
@@ -16,7 +21,9 @@ export class AdminClassesComponent implements OnInit {
     public dialog: MatDialog,
     private _admin: AdminService,
     private _spinner: NgxSpinnerService,
-    private _mtxDialog: MtxDialog
+    private _mtxDialog: MtxDialog,
+    private _tools: ToolsService,
+    private _class: ClassesService
   ) {}
 
   displayedColumns: string[] = ['position', 'PIB', 'Marks'];
@@ -30,16 +37,35 @@ export class AdminClassesComponent implements OnInit {
   }
 
   removeFromClass(id: string) {
-    this._admin.removeStudentFromClass(id).subscribe(() => {});
+    this._admin.removeStudentFromClass(id).subscribe(() => {
+      this.getClassStudents();
+    });
   }
 
   onChange(event: number) {
     this.selectedClass = event;
     if (event !== 0) {
       this.selectedClassId = this.classes[event - 1].id;
+      this.getClassStudents();
     } else {
       this.createClass();
     }
+  }
+
+  addUser(classID) {
+    this._mtxDialog
+      .originalOpen(CreateUserComponent, {
+        data: { classId: classID },
+      })
+      .afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this._admin.registerUser(data).subscribe(() => {
+            this.getClassStudents();
+            this._tools.showNotification('Користувача створено!');
+          });
+        }
+      });
   }
 
   loadClasses() {
@@ -58,7 +84,7 @@ export class AdminClassesComponent implements OnInit {
 
   createClass() {
     const dialogRef = this._mtxDialog.originalOpen(InputModalComponent, {
-      data: { class: 'demo' },
+      data: { class: '' },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -70,7 +96,6 @@ export class AdminClassesComponent implements OnInit {
         this._spinner.show();
         this._admin.createClass(result).subscribe(
           _ => {
-            console.log('class was created');
             this._spinner.hide();
             this.loadClasses();
           },
@@ -79,6 +104,35 @@ export class AdminClassesComponent implements OnInit {
           }
         );
       }
+    });
+  }
+
+  delete(className) {
+    this._mtxDialog.confirm('Дійсно видалити?', () => {
+      this._admin.deleteClass(className).subscribe(_ => {
+        this.loadClasses();
+      });
+    });
+  }
+
+  editSubjects() {
+    const dialogRef = this.dialog.open(EditSubjectsInClassComponent, {
+      width: '90%',
+      data: { classId: this.selectedClassId },
+    });
+    dialogRef.afterClosed();
+  }
+  editTeachers() {
+    const dialogRef = this.dialog.open(EditTeachersInClassComponent, {
+      width: '90%',
+      data: { classId: this.selectedClassId },
+    });
+    dialogRef.afterClosed();
+  }
+
+  getClassStudents() {
+    this._class.getStudentsByClassId(this.selectedClassId).subscribe(x => {
+      this.dataSource = x;
     });
   }
 
@@ -96,7 +150,6 @@ export class AdminClassesComponent implements OnInit {
         this._spinner.show();
         this._admin.changeClassName(className, result).subscribe(
           _ => {
-            console.log('class was updated');
             this._spinner.hide();
             this.loadClasses();
           },

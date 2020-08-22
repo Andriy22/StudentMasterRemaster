@@ -3,4 +3,5 @@ export class StudentModel {
   id: string;
   pib: string;
   isTeacher: boolean;
+  mark?: number;
 }

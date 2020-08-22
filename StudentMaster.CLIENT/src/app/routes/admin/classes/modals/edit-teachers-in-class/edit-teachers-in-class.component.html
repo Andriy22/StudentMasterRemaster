@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Редагування вчителів</h1>
+<div mat-dialog-content>
+  <mat-form-field class="col-12">
+    <mat-chip-list #chipList aria-label="Subjects selection">
+      <mat-chip
+        *ngFor="let el of teachers"
+        [selectable]="selectable"
+        [removable]="removable"
+        color="accent"
+        (removed)="remove(el)"
+      >
+        {{ el.pib }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Teachers"
+        #fruitInput
+        [formControl]="teacherCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        (matChipInputTokenEnd)="add($event)"
+      />
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let el of allTeachers" [value]="el">
+        {{ el.pib }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" [disabled]="this.isLoading" [class.spinner]="this.isLoading" mat-button>
+    Close
+  </button>
+</div>

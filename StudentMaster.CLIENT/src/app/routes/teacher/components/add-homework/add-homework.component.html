@@ -1,0 +1,85 @@
+<h1 mat-dialog-title>Додавання домашнього завдання!</h1>
+<div mat-dialog-content>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="infoForm">
+      <form [formGroup]="infoForm">
+        <ng-template matStepLabel>Дані</ng-template>
+        <mat-form-field class="col-12">
+          <mat-label>Оберіть предмет</mat-label>
+          <mat-select class="col-12" formControlName="subject">
+            <mat-option *ngFor="let item of this.subjects" value="{{ item.id }}">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+        <mat-form-field class="col-12">
+          <input
+            matInput
+            [matDatepicker]="datapicker"
+            [max]="this.maxDate"
+            [min]="this.minDate"
+            placeholder="Оберіть дату до якої д/з дійсне."
+            formControlName="date"
+          />
+          <mat-datepicker-toggle matSuffix [for]="datapicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #datapicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-12">
+          <mat-label>Введіть тему</mat-label>
+          <input matInput placeholder="Введіть тему" formControlName="theme" />
+        </mat-form-field>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.infoForm.invalid"
+            (click)="onSubmitInfoForm(stepper)"
+          >
+            Далі
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="dataForm">
+      <form [formGroup]="dataForm">
+        <ng-template matStepLabel>File</ng-template>
+        <button
+          mat-raised-button
+          color="primary"
+          style="margin: 2rem;"
+          (click)="this.onPickImage()"
+        >
+          Оберіть файл з домашнім завданням!
+        </button>
+        <input id="fileSelector" type="file" style="display: none;" />
+        <!-- <img [src]="this.dataForm.value.homework" /> -->
+        <br />
+        <div>
+          <button
+            mat-raised-button
+            [disabled]="this.isLoading"
+            [class.spinner]="this.isLoading"
+            style="margin-right: 1rem;"
+            matStepperPrevious
+          >
+            Назад
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.dataForm.invalid || this.isLoading"
+            [class.spinner]="this.isLoading"
+            (click)="this.onSubmitDataForm(stepper)"
+          >
+            Додати
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+<div mat-dialog-actions>
+  <button (click)="close()" mat-button>Закрити</button>
+</div>

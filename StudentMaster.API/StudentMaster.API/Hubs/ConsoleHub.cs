@@ -25,22 +25,22 @@ namespace StudentMaster.API.Hubs
             this.commands = new List<Command>();
             _classService = classService;
             _adminService = adminService;
-            commands.Add(new Command() { command = "/help", description = "'see all commands | Список команд'" });
-            commands.Add(new Command() { command = "/add-class class_name", description = "'create a new class | Створити новий клас'" });
-            commands.Add(new Command() { command = "/remove-class class_name", description = "'remove a class | Видалити клас'" });
-            commands.Add(new Command() { command = "/rollback-class class_name", description = "'rollback a class | Відновити клас'" });
-            commands.Add(new Command() { command = "/change-class-name old_name new_name", description = "'edit class name | Змінити назву класу.'" });
-            commands.Add(new Command() { command = "/add-subject subject_name", description = "'create a new subject | Додати предмет'" });
-            commands.Add(new Command() { command = "/edit-subject subject_name new_subject_name", description = "'edit a subject | Змінити назву предмета'" });
-            commands.Add(new Command() { command = "/rollback-subject subject_name", description = "'rollback a subject | Відновити предмет'" });
-            commands.Add(new Command() { command = "/remove-subject subject_name", description = "'remove a subject | Видалити предмет'" });
+            commands.Add(new Command() { command = "/help", description = "'Список команд'" });
+            commands.Add(new Command() { command = "/add-class class_name", description = "'Створити новий клас'" });
+            commands.Add(new Command() { command = "/remove-class class_name", description = "'Видалити клас'" });
+            commands.Add(new Command() { command = "/rollback-class class_name", description = "'Відновити клас'" });
+            commands.Add(new Command() { command = "/change-class-name old_name new_name", description = "'Змінити назву класу.'" });
+            commands.Add(new Command() { command = "/add-subject subject_name", description = "'Додати предмет'" });
+            commands.Add(new Command() { command = "/edit-subject subject_name new_subject_name", description = "'Змінити назву предмета'" });
+            commands.Add(new Command() { command = "/rollback-subject subject_name", description = "'Відновити предмет'" });
+            commands.Add(new Command() { command = "/remove-subject subject_name", description = "'Видалити предмет'" });
         }
 
         [Authorize(Roles = "Admin")]
         public async Task Execute(string command)
         {
             var cmd = command.Split(' ');
-            await sendMessageAsync($"The command [ {command} ] was received. | Команду [ {command} ] отримано. Опрацьовуємо... :)", "orange");
+            await sendMessageAsync($"Команду [ {command} ] отримано. Опрацьовуємо...", "orange");
 
             Thread.Sleep(500);
 
@@ -58,119 +58,119 @@ namespace StudentMaster.API.Hubs
             if (cmd[0].ToLower() == "/add-class")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Class name can't be null", "red");
+                    await sendMessageAsync($"Назва класу не може бути пустою", "red");
                 try
                 {
                     _classService.createClass(cmd[1]);
-                    await sendMessageAsync("Class has been created!");
+                    await sendMessageAsync("Клас створено!");
                 } catch (Exception)
                 {
-                    await sendMessageAsync($"Class name [" + cmd[1] + "] is used", "red");
+                    await sendMessageAsync($"Назва [" + cmd[1] + "] вже використовується", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/remove-class")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Class name can't be null", "red");
+                    await sendMessageAsync($"Назва класу не може бути пустою", "red");
                 try
                 {
                     _classService.removeClass(cmd[1]);
-                    await sendMessageAsync("Class has been removed!");
+                    await sendMessageAsync("Клас видалено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Class name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Клас з назвою [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/rollback-class")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Class name can't be null", "red");
+                    await sendMessageAsync($"Назва класу не може бути пустою", "red");
                 try
                 {
                     _classService.rollbackClass(cmd[1]);
-                    await sendMessageAsync("Class has been updated!");
+                    await sendMessageAsync("Клас відновлено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Class name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Клас з назвою [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/change-class-name")
             {
                 if (String.IsNullOrEmpty(cmd[1] + cmd[2]))
-                    await sendMessageAsync($"Class name can't be null", "red");
+                    await sendMessageAsync($"Назва класу не може бути пустою", "red");
                 try
                 {
                     _classService.changeNameClass(cmd[1], cmd[2]);
-                    await sendMessageAsync("Class has been updated!");
+                    await sendMessageAsync("Клас оновлено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Class name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Клас з назвою [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/add-subject")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Subject name can't be null", "red");
+                    await sendMessageAsync($"Назва предмету не може бути пустою", "red");
                 try
                 {
                     _adminService.createSubject(cmd[1]);
-                    await sendMessageAsync("Subject has been created!");
+                    await sendMessageAsync("Предмет створено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Subject name [" + cmd[1] + "] is used", "red");
+                    await sendMessageAsync($"Предмет з назвою [" + cmd[1] + "] вже існує", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/remove-subject")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Subject name can't be null", "red");
+                    await sendMessageAsync($"Назва предмету не може бути пустою", "red");
                 try
                 {
                     _adminService.createSubject(cmd[1]);
-                    await sendMessageAsync("Subject has been removed!");
+                    await sendMessageAsync("Предмет видалено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Subject name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Предмет [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/rollback-subject")
             {
                 if (String.IsNullOrEmpty(cmd[1]))
-                    await sendMessageAsync($"Subject name can't be null", "red");
+                    await sendMessageAsync($"Назва предмету не може бути пустою", "red");
                 try
                 {
                     _adminService.rollbackSubject(cmd[1]);
-                    await sendMessageAsync("Subject has been updated!");
+                    await sendMessageAsync("Предмет відновлено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Subject name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Предмет [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
             if (cmd[0].ToLower() == "/edit-subject")
             {
                 if (String.IsNullOrEmpty(cmd[1] + cmd[2]))
-                    await sendMessageAsync($"Subject name can't be null", "red");
+                    await sendMessageAsync($"Назва предмету не може бути пустою", "red");
                 try
                 {
                     _adminService.changeNameSubject(cmd[1], cmd[2]);
-                    await sendMessageAsync("Subject has been updated!");
+                    await sendMessageAsync("Предмет оновлено!");
                 }
                 catch (Exception)
                 {
-                    await sendMessageAsync($"Subject name [" + cmd[1] + "] not found", "red");
+                    await sendMessageAsync($"Предмет [" + cmd[1] + "] не знайдено", "red");
                 }
             }
             else
@@ -180,8 +180,8 @@ namespace StudentMaster.API.Hubs
             }
             else
             {
-                    await sendMessageAsync($"Command {cmd[0]} not found...", "red");
-                    await sendMessageAsync($"Try to use '/help' for see all commands", "red");
+                    await sendMessageAsync($"Команду {cmd[0]} не знайдено...", "red");
+                    await sendMessageAsync($"Спробуйте використати '/help' щоб переглянути всі команди консолі", "red");
             }
         }
         public async Task sendMessageAsync(string message, string color = "magenta") {

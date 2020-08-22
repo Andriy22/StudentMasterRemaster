@@ -190,12 +190,29 @@ namespace StudentMaster.API.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(ErrorHelper.GetException("Class name [" + name + "] is used", "red", "Error").Data["ERROR"]);
+                return BadRequest(ErrorHelper.GetException("Клас [" + name + "] вже iснує", "red", "Помилка").Data["ERROR"]);
             }
         }
+
+        [HttpGet("delete-class/{name}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult deleteClass(string name)
+        {
+
+            try
+            {
+                _classService.removeClass(name);
+                return Ok(new { msg = "Ok" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(ErrorHelper.GetException("Ми не змогли видалити клас [" + name + "] ", "red", "Помилка").Data["ERROR"]);
+            }
+        }
+
         [HttpGet("change-class-name/{oldName}/{newName}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult createClass(string oldName, string newName)
+        public IActionResult changeClassName(string oldName, string newName)
         {
 
             try

@@ -12,18 +12,47 @@
       }
     },
     {
-      "route": "admin/classes",
-      "name": "Класи",
-      "type": "link",
+      "route": "teacher",
+      "name": "Панель вчителя",
+      "type": "sub",
+      "roles": ["Admin"],
       "icon": "school",
-      "roles": ["Admin"]
+      "children": [
+        {
+          "route": "dashboard",
+          "name": "Класи",
+          "type": "link"
+        },
+        {
+          "route": "homeworks",
+          "name": "Домашні завдання",
+          "type": "link"
+        }
+      ]
     },
     {
-      "route": "admin/users",
-      "name": "Користувачі",
-      "type": "link",
-      "icon": "group",
-      "roles": ["Admin"]
+      "route": "admin",
+      "name": "Адмін панель",
+      "type": "sub",
+      "roles": ["Admin"],
+      "icon": "dashboard",
+      "children": [
+        {
+          "route": "classes",
+          "name": "Класи",
+          "type": "link"
+        },
+        {
+          "route": "users",
+          "name": "Користувачі",
+          "type": "link"
+        },
+        {
+          "route": "console",
+          "name": "Консоль",
+          "type": "link"
+        }
+      ]
     },
     {
       "route": "sessions",

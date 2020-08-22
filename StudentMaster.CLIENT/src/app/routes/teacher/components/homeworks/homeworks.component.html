@@ -1,0 +1,60 @@
+<h1 *ngIf="this.homeworks.length === 0" class="col-12" style="text-align: center;">
+  No homeworks yet.
+</h1>
+<mat-card *ngFor="let el of this.homeworks">
+  <mat-list role="list">
+    <mat-list-item role="listitem"
+      ><p class="col-3">ПІБ:</p>
+      {{ el.pib }}
+    </mat-list-item>
+    <mat-list-item role="listitem"
+      ><p class="col-3">Предмет:</p>
+      {{ el.subject }}
+    </mat-list-item>
+    <mat-list-item role="listitem"
+      ><p class="col-3">Тема:</p>
+      {{ el.theme }}</mat-list-item
+    >
+    <mat-list-item role="listitem"
+      ><p class="col-3">Завдання:</p>
+      <a
+        [href]="this.file_url + this.el.file"
+        class="col-11"
+        target="_blank"
+        style="margin: 1rem;"
+        mat-raised-button
+        color="primary"
+        download="task"
+        class="col-md-3 col-6"
+        >Download</a
+      ></mat-list-item
+    >
+    <mat-list-item role="listitem"
+      ><p class="col-3">Робота учня:</p>
+      <a
+        [href]="this.file_url + this.el.student_file"
+        class="col-11"
+        target="_blank"
+        style="margin: 1rem;"
+        mat-raised-button
+        color="primary"
+        download="studentwork"
+        class="col-md-3 col-6"
+        >Download</a
+      ></mat-list-item
+    >
+    <br />
+    <mat-list-item role="listitem">
+      <p class="col-3">Оцінка:</p>
+      <mat-form-field class="col-3">
+        <mat-label>Оберіть оцінку</mat-label>
+        <mat-select (selectionChange)="changeSelection(this.el.id, $event)">
+          <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" [value]="i">
+            {{ i }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+  </mat-list>
+  <br />
+</mat-card>

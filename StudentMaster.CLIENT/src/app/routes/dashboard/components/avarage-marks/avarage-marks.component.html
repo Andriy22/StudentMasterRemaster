@@ -1,0 +1,11 @@
+<mat-card class="col-12">
+  <mat-list>
+    <h3 mat-subheader>Статистика</h3>
+    <mat-list-item *ngFor="let el of marks">
+      <mat-icon mat-list-icon>star</mat-icon>
+      <h4 mat-line>
+        {{ el.subject }}: <strong>{{ el.mark }}</strong>
+      </h4>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
