@@ -1,0 +1,60 @@
+<mat-tab-group
+  (selectedIndexChange)="onChange($event)"
+  mat-align-tabs="center"
+  animationDuration="2000ms"
+>
+  <mat-tab *ngFor="let item of this.types" label="{{ item }}"> </mat-tab>
+</mat-tab-group>
+<h1 *ngIf="this.homeworks.length === 0" class="cell-12" style="text-align: center;">
+  Ще немає домашніх завдань!
+</h1>
+<div class="row">
+  <mat-card class="cell-11 cell-md-3" style="margin: 1rem;" *ngFor="let item of this.homeworks">
+    <mat-card-title>{{ item.subject }}</mat-card-title>
+    <mat-card-subtitle>{{ item.theme }}</mat-card-subtitle>
+    <mat-divider></mat-divider>
+    <mat-card-content style="height: auto; text-align: center; flex:content">
+      <a
+        [href]="this.fileAPI + this.item.path"
+        class="cell-3"
+        target="_blank"
+        style="margin: 1rem;"
+        mat-icon-button
+        color="primary"
+        download="download"
+        aria-label="Download"
+        ><mat-icon>get_app</mat-icon></a
+      >
+      <input id="fileSelector" type="file" style="display: none;" />
+      <button
+        class="cell-3"
+        *ngIf="this.item.status === types[0]"
+        style="margin: 1rem;"
+        aria-label="Upload"
+        (click)="upload(item.id)"
+        mat-icon-button
+        color="accent"
+      >
+        <mat-icon>publish</mat-icon>
+      </button>
+      <button
+        class="cell-3"
+        *ngIf="this.item.status === types[1]"
+        style="margin: 1rem;"
+        aria-label="Delete"
+        (click)="remove(item.id)"
+        mat-icon-button
+        color="warn"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <h2 class="cell-12" style="text-align: center " *ngIf="this.item.status === types[2]">
+        <div class="mark">{{ item.mark }}</div>
+      </h2>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-footer style="text-align: center">
+      <h3>To: {{ item.todate }}</h3>
+    </mat-card-footer>
+  </mat-card>
+</div>

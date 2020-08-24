@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Додати новину :)</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="col-12">
+      <mat-label>Заголовок</mat-label>
+      <input matInput placeholder="Input Title" formControlName="title" />
+    </mat-form-field>
+    <br />
+    <mat-form-field class="col-12">
+      <mat-label>Текст</mat-label>
+      <textarea matInput placeholder="Input Text" formControlName="text"></textarea>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" [disabled]="this.form.invalid" (click)="onSubmit()">
+        Додати
+      </button>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="this.dialogRef.close()">Закрити</button>
+</div>

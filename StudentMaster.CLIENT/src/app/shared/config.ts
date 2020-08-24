@@ -1,4 +1,5 @@
 export const API = 'https://localhost:44380';
+export const IMG_API = 'https://localhost:44380/images/';
 
 // USER ROLES
 

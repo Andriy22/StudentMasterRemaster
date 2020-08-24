@@ -11,6 +11,11 @@ import { MarksChartComponent } from './dashboard/components/marks-chart/marks-ch
 import { ChartsModule } from 'ng2-charts';
 import { ProgressChartComponent } from './dashboard/components/progress-chart/progress-chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { HomeworksComponent } from './homeworks/homeworks.component';
+import { NewsComponent } from './news/news.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { AddNewComponent } from './news/add-new/add-new.component';
+import { ShowNewComponent } from './news/show-new/show-new.component';
 const COMPONENTS = [
   DashboardComponent,
   LoginComponent,
@@ -18,8 +23,13 @@ const COMPONENTS = [
   AvarageMarksComponent,
   ClassmatesComponent,
   MarksChartComponent,
+  HomeworksComponent,
+  NewsComponent,
+  ScheduleComponent,
+  AddNewComponent,
+  ShowNewComponent,
 ];
-const COMPONENTS_DYNAMIC = [];
+const COMPONENTS_DYNAMIC = [ShowNewComponent, AddNewComponent];
 
 @NgModule({
   imports: [SharedModule, ChartsModule, RoutesRoutingModule, NgApexchartsModule],

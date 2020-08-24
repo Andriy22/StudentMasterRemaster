@@ -8,10 +8,31 @@
       "roles": ["User"]
     },
     {
+      "route": "homeworks",
+      "name": "Домашні завдання",
+      "type": "link",
+      "icon": "attach_file",
+      "roles": ["User"]
+    },
+    {
+      "route": "news",
+      "name": "Новини",
+      "type": "link",
+      "icon": "mode_comment",
+      "roles": ["User", "Admin", "Teacher"]
+    },
+    {
+      "route": "schedule",
+      "name": "Розклад",
+      "type": "link",
+      "icon": "schedule",
+      "roles": ["User", "Admin", "Teacher"]
+    },
+    {
       "route": "teacher",
       "name": "Панель вчителя",
       "type": "sub",
-      "roles": ["Admin"],
+      "roles": ["Teacher"],
       "icon": "school",
       "children": [
         {

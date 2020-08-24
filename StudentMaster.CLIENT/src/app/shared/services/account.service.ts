@@ -22,6 +22,9 @@ export class AccountService {
       API + '/api/Account/change-password-without-password/' + email + '/' + code + '/' + password
     );
   }
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.http.get(`${API}/api/Account/change-password/${currentPassword}/${newPassword}`);
+  }
   createAccount(username, firstname, name, lastname, password, code) {
     return this.http.post(API + '/api/Account/create-account', {
       username,

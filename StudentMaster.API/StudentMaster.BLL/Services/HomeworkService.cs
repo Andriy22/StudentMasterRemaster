@@ -83,7 +83,7 @@ namespace StudentMaster.BLL.Services
             var result = new HomeworkItem()
             {
                 File = new Attachment() { Path = file },
-                Status = "REVIEW",
+                Status = "На перевірці",
                 ownerId = uid,
                 Time = DateTime.Now,
                
@@ -106,7 +106,7 @@ namespace StudentMaster.BLL.Services
                 var stat = "";
                 int mark = 0;
                 if (d == null)
-                    stat = "OPEN";
+                    stat = "Відкриті";
                 else
                 {
                     stat = d.Status;
@@ -132,7 +132,7 @@ namespace StudentMaster.BLL.Services
 
         public ICollection<teacherHomeworkResult> getTeacherHomeworks(string uid)
         {
-            var h = _homeworkItemRepository.GetQueryable(x => x.HomeWork.Creator.Id == uid && x.Status != "CLOSED").Include(x=>x.owner).Include(x => x.HomeWork).ThenInclude(x => x.Creator).Include(x=>x.HomeWork.Subject).Include(x=>x.HomeWork.File).Include(x=>x.File);
+            var h = _homeworkItemRepository.GetQueryable(x => x.HomeWork.Creator.Id == uid && x.Status != "Закриті").Include(x=>x.owner).Include(x => x.HomeWork).ThenInclude(x => x.Creator).Include(x=>x.HomeWork.Subject).Include(x=>x.HomeWork.File).Include(x=>x.File);
             var result = new List<teacherHomeworkResult>();
             foreach (var el in h)
             {
@@ -162,7 +162,7 @@ namespace StudentMaster.BLL.Services
         {
             var w = _homeworkItemRepository.GetById(wid);
 
-            w.Status = "CLOSED";
+            w.Status = "Закриті";
             w.Mark = mark;
             _homeworkItemRepository.Edit(w);
             return true;

@@ -35,6 +35,21 @@ namespace StudentMaster.BLL.Services
             _classRepository = classRepository;
         }
 
+        public async Task<bool> changePassword(string uid, string password, string newPassword)
+        {
+
+            var result = await _userManager.CheckPasswordAsync(await _userManager.FindByIdAsync(uid), password);
+            if (!result)
+                throw ErrorHelper.GetException("Поточний пароль не правильний", "400", "", 400);
+
+            result = (await _userManager.ChangePasswordAsync(await _userManager.FindByIdAsync(uid), password, newPassword)).Succeeded;
+            if (result)
+            {
+                return true;
+            }
+            throw ErrorHelper.GetException("Новий пароль має містити 6 або більше символів", "400", "", 400);
+        }
+
         public async Task<bool> changePasswordWithoutOldPassword(string email, string password, int code)
         {
             var user = await _userManager.FindByEmailAsync(email);

@@ -56,6 +56,21 @@ namespace StudentMaster.API.Controllers
             }
         }
 
+        [HttpGet("change-password/{password}/{newPassword}")]
+        [Authorize]
+        public async Task<IActionResult> changePassword(string password, string newPassword)
+        {
+            try
+            {
+                await this._accountService.changePassword(User.Identity.Name, password, newPassword);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+        }
+
         [HttpGet("reset-password-request/{data}")]
         public async Task<IActionResult> resetPasswordRequest(string data)
         {

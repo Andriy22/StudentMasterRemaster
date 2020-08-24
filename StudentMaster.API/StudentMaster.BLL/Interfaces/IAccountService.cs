@@ -15,5 +15,6 @@ namespace StudentMaster.BLL.Interfaces
         Task<IEnumerable<myClassResult>> getMyClasses(string uid);
 
         Task<bool> createAccount(registerViewModel model);
+        Task<bool> changePassword(string uid, string password, string newPassword);
     }
 }
