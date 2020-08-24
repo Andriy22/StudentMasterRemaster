@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
       <span style="font-size: 20px" class="matero-branding-name">
         StudentMaster
         <sup
-          ><small>#1.0.1 <b>PRE</b>VIEW</small></sup
+          ><small>#1.0.2 <b>PRE</b>RELEASE</small></sup
         ></span
       >
     </a>

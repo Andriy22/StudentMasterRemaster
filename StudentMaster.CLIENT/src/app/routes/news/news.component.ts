@@ -23,6 +23,10 @@ export class NewsComponent implements OnInit {
     private authService: AuthService
   ) {}
 
+  update() {
+    this.authService.refresh().subscribe();
+  }
+
   ngOnInit() {
     this.isAdmin = this.authService.hasRole(adminRole);
   }

@@ -11,6 +11,7 @@ import { EditSubjectsInClassComponent } from './classes/modals/edit-subjects-in-
 import { EditTeachersInClassComponent } from './classes/modals/edit-teachers-in-class/edit-teachers-in-class.component';
 import { EditSubjectsInTeacherComponent } from './users/modals/edit-subjects-in-teacher/edit-subjects-in-teacher.component';
 import { ConsoleComponent } from './console/console.component';
+import { EditScheduleComponent } from './classes/modals/edit-schedule/edit-schedule.component';
 
 const COMPONENTS = [
   AdminClassesComponent,
@@ -22,6 +23,7 @@ const COMPONENTS = [
   EditTeachersInClassComponent,
   EditSubjectsInTeacherComponent,
   ConsoleComponent,
+  EditScheduleComponent,
 ];
 const COMPONENTS_DYNAMIC = [
   InputModalComponent,
@@ -30,6 +32,7 @@ const COMPONENTS_DYNAMIC = [
   EditSubjectsInClassComponent,
   EditTeachersInClassComponent,
   EditSubjectsInTeacherComponent,
+  EditScheduleComponent,
 ];
 
 @NgModule({

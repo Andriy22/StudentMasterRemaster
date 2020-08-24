@@ -10,6 +10,7 @@ import { ToolsService } from '@shared/services/tools.service';
 import { EditSubjectsInClassComponent } from './modals/edit-subjects-in-class/edit-subjects-in-class.component';
 import { EditTeachersInClassComponent } from './modals/edit-teachers-in-class/edit-teachers-in-class.component';
 import { ClassesService } from '@shared/services/classes.service';
+import { EditScheduleComponent } from './modals/edit-schedule/edit-schedule.component';
 
 @Component({
   selector: 'app-admin-classes',
@@ -50,6 +51,15 @@ export class AdminClassesComponent implements OnInit {
     } else {
       this.createClass();
     }
+  }
+
+  editSchedule() {
+    this._mtxDialog
+      .originalOpen(EditScheduleComponent, {
+        width: '50%',
+        data: { classId: this.selectedClassId },
+      })
+      .afterClosed();
   }
 
   addUser(classID) {

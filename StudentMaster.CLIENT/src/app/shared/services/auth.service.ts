@@ -37,6 +37,7 @@ export class AuthService {
               localStorage.setItem(CURRENT_USER, JSON.stringify(user));
               localStorage.setItem(JWT_TOKEN, user.access_token);
               localStorage.setItem(REFRESH_TOKEN, user.refresh_token);
+              this.currentUserSubject.next(user);
             }
           }
 
@@ -55,6 +56,7 @@ export class AuthService {
             localStorage.setItem(CURRENT_USER, JSON.stringify(user));
             localStorage.setItem(JWT_TOKEN, user.access_token);
             localStorage.setItem(REFRESH_TOKEN, user.refresh_token);
+            this.currentUserSubject.next(user);
           }
 
           return user;
@@ -75,8 +77,7 @@ export class AuthService {
 
   loggedIn() {
     if (localStorage.getItem(JWT_TOKEN)) {
-      const token = localStorage.getItem(JWT_TOKEN);
-      return !this.jwtHelper.isTokenExpired(token);
+      return true;
     }
     return false;
   }
@@ -124,6 +125,10 @@ export class AuthService {
   }
   getTokenPayload(): string {
     return this.jwtHelper.decodeToken(localStorage.getItem(JWT_TOKEN));
+  }
+
+  getRefreshToken(): string {
+    return localStorage.getItem(REFRESH_TOKEN);
   }
 
   hasRole(role: string): boolean {

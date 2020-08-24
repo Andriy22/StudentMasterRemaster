@@ -68,7 +68,7 @@ namespace StudentMaster.BLL.Services
             var decrypt_token = handler.ReadJwtToken(model.token);
             
             if (decrypt_token.Claims.FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value != token.User.Id)
-                throw new Exception("Unknown error...");
+                throw new Exception("Токени не співпадають");
 
             return new AuthSuccessResult()
             {
