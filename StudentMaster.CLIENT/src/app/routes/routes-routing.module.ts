@@ -12,6 +12,8 @@ import { RedirectGuard } from '@core/authentication/redirect.guard';
 import { HomeworksComponent } from './homeworks/homeworks.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { NewsComponent } from './news/news.component';
+import { BugReportComponent } from './bug-report/bug-report.component';
+import { CheckBrowserComponent } from './check-browser/check-browser.component';
 
 const routes: Routes = [
   {
@@ -20,7 +22,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'check-data', pathMatch: 'full' },
       {
         path: 'dashboard',
         component: DashboardComponent,
@@ -29,7 +31,7 @@ const routes: Routes = [
       {
         path: 'homeworks',
         component: HomeworksComponent,
-        data: { title: 'homeworks', titleI18n: 'homeworks' },
+        data: { title: 'homeworks', titleI18n: 'homeworks', roleCode: 'User' },
       },
       {
         path: 'news',
@@ -37,9 +39,19 @@ const routes: Routes = [
         data: { title: 'news', titleI18n: 'news' },
       },
       {
+        path: 'check-data',
+        component: CheckBrowserComponent,
+        data: { title: 'check', titleI18n: 'check' },
+      },
+      {
+        path: 'report',
+        component: BugReportComponent,
+        data: { title: 'report', titleI18n: 'report' },
+      },
+      {
         path: 'schedule',
         component: ScheduleComponent,
-        data: { title: 'schedule', titleI18n: 'schedule' },
+        data: { title: 'schedule', titleI18n: 'schedule', roleCode: 'User' },
       },
       {
         path: 'sessions',
@@ -54,10 +66,12 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        data: { roleCode: 'Admin' },
       },
       {
         path: 'teacher',
         loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule),
+        data: { roleCode: 'Teacher' },
       },
     ],
   },

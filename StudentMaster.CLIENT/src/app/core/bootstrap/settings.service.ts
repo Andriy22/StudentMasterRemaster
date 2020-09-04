@@ -16,12 +16,16 @@ export interface User {
 })
 export class SettingsService {
   private _options = defaults;
+  private _isUpdate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _notify$ = new BehaviorSubject<any>({});
 
   get notify(): Observable<any> {
     return this._notify$.asObservable();
   }
-  private _notify$ = new BehaviorSubject<any>({});
 
+  get isSettingsUpdate(): Observable<any> {
+    return this._isUpdate$.asObservable();
+  }
   constructor(private _store: LocalStorageService) {}
 
   setLayout(options?: AppSettings): AppSettings {
@@ -35,6 +39,10 @@ export class SettingsService {
 
   getOptions(): AppSettings {
     return this._options;
+  }
+  updateOptions(options: AppSettings) {
+    this._options = options;
+    this._isUpdate$.next(true);
   }
 
   setUser(value: User) {

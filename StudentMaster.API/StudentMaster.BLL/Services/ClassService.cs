@@ -19,14 +19,16 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<ClassSubject> _csRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Schedule> _scheduleRepository;
+        private readonly IRepository<ScheduleItem> _scheduleItemRepository;
 
-        public ClassService(IRepository<Class> classRepository, IRepository<TeacherSubject> tsRepository, IRepository<ClassSubject> csRepository, IRepository<User> userRepository, IRepository<Schedule> scheduleRepository)
+        public ClassService(IRepository<Class> classRepository, IRepository<TeacherSubject> tsRepository, IRepository<ClassSubject> csRepository, IRepository<User> userRepository, IRepository<Schedule> scheduleRepository, IRepository<ScheduleItem> scheduleItemRepository)
         {
             _classRepository = classRepository;
             _tsRepository = tsRepository;
             _csRepository = csRepository;
             _userRepository = userRepository;
             _scheduleRepository = scheduleRepository;
+            _scheduleItemRepository = scheduleItemRepository;
         }
 
         public void createClass(string className)
@@ -60,17 +62,37 @@ namespace StudentMaster.BLL.Services
         }
         public async Task<IEnumerable<scheduleResult>> GetSchedule(string uid)
         {
-            var cl = _classRepository.GetSingle(x => x.Students.FirstOrDefault(y => y.Id == uid) != null);
+            var cl = _classRepository.GetQueryable(x => x.Students.FirstOrDefault(y => y.Id == uid) != null).Include(x=>x.Students).FirstOrDefault();
             if (cl != null)
             {
                 var result = new List<scheduleResult>();
-                foreach (var el in await _scheduleRepository.GetQueryable(x=>x.Class == cl).Include(x=>x.Items).ToListAsync())
+                foreach (var el in await _scheduleRepository.GetQueryable(x => x.Class == cl).Include(x => x.Items).ToListAsync())
+                {
+                    var items = new List<ScheduleItemResult>();
+
+                    foreach (var item in _scheduleItemRepository.GetQueryable(x => x.schedule.Id == el.Id).Include(x => x.schedule).Include(x => x.Name).ToArray())
+                    {
+                        if (item.Name != null)
+                        {
+                            items.Add(new ScheduleItemResult()
+                            {
+                                Id = item.Id,
+                                Name = item.Name.Name,
+                                Pos = item.Position
+                            });
+                        }
+                     
+
+                    }
+
                     result.Add(new scheduleResult()
                     {
                         Day = el.Day,
                         Id = el.Id,
-                        Items = el.Items
+                        Items = items
                     });
+                }
+                   
                 return result;
             }
             throw ErrorHelper.GetException("Class not found", "404", "", 404);

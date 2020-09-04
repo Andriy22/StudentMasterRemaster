@@ -8,6 +8,7 @@ import { Pagination } from '@shared/models/pagination.model';
 import { StudentModel } from '@shared/models/student-model';
 import { StudentClass } from '@shared/models/student-class.model';
 import { RegisterModel } from '@shared/models/register.model';
+import { ScheduleItem } from '@shared/models/schedule-model';
 
 @Injectable({
   providedIn: 'root',
@@ -96,5 +97,14 @@ export class AdminService {
   }
   public deleteClass(name) {
     return this.http.get(API + '/api/Admin/delete-class/' + name);
+  }
+
+  public getClassScheduleByDay(classId, dayId) {
+    return this.http.get<ScheduleItem[]>(API + '/api/Admin/get-schedule/' + classId + '/' + dayId);
+  }
+  public editClassScheduleByDay(classId, dayId, subjectId, position) {
+    return this.http.get(
+      API + '/api/Admin/edit-schedule/' + classId + '/' + dayId + '/' + subjectId + '/' + position
+    );
   }
 }

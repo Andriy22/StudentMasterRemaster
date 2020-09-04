@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MenuService, Menu } from '@core';
 import { AuthService } from '@shared/services/auth.service';
 
@@ -6,7 +6,7 @@ import { AuthService } from '@shared/services/auth.service';
   selector: 'app-sidemenu',
   templateUrl: './sidemenu.component.html',
 })
-export class SidemenuComponent {
+export class SidemenuComponent implements OnInit {
   // NOTE: Ripple effect make page flashing on mobile
   @Input() ripple = false;
 
@@ -24,7 +24,6 @@ export class SidemenuComponent {
               this._auth.hasRole(role) &&
               this.menus.findIndex(x => x.name === rout.name) === -1
             ) {
-              console.log(rout);
               this.menus.push(rout);
             }
           });

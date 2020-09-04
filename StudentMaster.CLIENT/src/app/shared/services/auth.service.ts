@@ -81,6 +81,11 @@ export class AuthService {
     }
     return false;
   }
+
+  checkAuth() {
+    return this.http.get(`${API}/api/Account/check-auch`);
+  }
+
   isTokenExpired() {
     if (localStorage.getItem(JWT_TOKEN)) {
       const token = localStorage.getItem(JWT_TOKEN);

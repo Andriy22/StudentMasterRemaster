@@ -8,18 +8,18 @@ import { ScheduleService } from '@shared/services/schedule.service';
   styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'start', 'end'];
+  displayedColumns: string[] = ['pos', 'name'];
   dataSource: any[] = [];
   schedule: ScheduleModel[] = [];
   constructor(private _scheduleService: ScheduleService) {
-    this._scheduleService.GetSchedule();
-    this._scheduleService.Schedule.subscribe(x => {
+    this._scheduleService.GetSchedule().subscribe(x => {
       this.schedule = x;
+      if (x.length > 0) {
+        this.dataSource = x[0].items;
+      }
     });
   }
-  ngOnInit() {
-    // this.dataSource = this.Schedule.;
-  }
+  ngOnInit() {}
   onChange(event: any) {
     this.dataSource = this.schedule[event].items;
   }

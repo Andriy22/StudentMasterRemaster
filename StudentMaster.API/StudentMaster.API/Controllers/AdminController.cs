@@ -296,6 +296,41 @@ namespace StudentMaster.API.Controllers
             }
 
         }
+
+
+        [HttpGet("edit-schedule/{classId}/{dayId}/{subjectId}/{pos}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> editSchedule(int classId, int dayId, int subjectId, int pos)
+        {
+            try
+            {
+                _adminService.editSchedule(classId, dayId, subjectId, pos);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Data["ERROR"]);
+            }
+
+        }
+
+        [HttpGet("get-schedule/{classId}/{dayId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getSchedule(int classId, int dayId)
+        {
+            try
+            {
+             
+                return Ok(_adminService.getClassScheduleByDay(classId, dayId));
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+
+        }
+
         [HttpPost("add-new")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> addNew(addNewViewModel model)

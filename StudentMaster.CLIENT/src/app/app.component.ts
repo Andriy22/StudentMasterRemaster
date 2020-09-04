@@ -1,5 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { PreloaderService } from '@core';
+import { SwUpdate } from '@angular/service-worker';
+import { MtxDialog } from '@ng-matero/extensions';
+import { UpdateVersionComponent } from '@shared/components/update-version/update-version.component';
 
 @Component({
   selector: 'app-root',

@@ -125,6 +125,14 @@ namespace StudentMaster.API.Controllers
             return Ok(await _accountService.getMyClasses(User.Identity.Name));
         }
 
+
+        [HttpGet("check-auch")]
+        [Authorize]
+        public  IActionResult CheckAuth()
+        {
+            return Ok(new { msg = "Authorized" });
+        }
+
         [HttpPost("create-account")]
         public async Task<IActionResult> createAccount(registerViewModel model)
         {

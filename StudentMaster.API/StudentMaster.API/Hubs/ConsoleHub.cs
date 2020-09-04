@@ -26,10 +26,10 @@ namespace StudentMaster.API.Hubs
             _classService = classService;
             _adminService = adminService;
             commands.Add(new Command() { command = "/help", description = "'Список команд'" });
-            commands.Add(new Command() { command = "/add-class class_name", description = "'Створити новий клас'" });
-            commands.Add(new Command() { command = "/remove-class class_name", description = "'Видалити клас'" });
+            // commands.Add(new Command() { command = "/add-class class_name", description = "'Створити новий клас'" });
+            // commands.Add(new Command() { command = "/remove-class class_name", description = "'Видалити клас'" });
             commands.Add(new Command() { command = "/rollback-class class_name", description = "'Відновити клас'" });
-            commands.Add(new Command() { command = "/change-class-name old_name new_name", description = "'Змінити назву класу.'" });
+            // commands.Add(new Command() { command = "/change-class-name old_name new_name", description = "'Змінити назву класу.'" });
             commands.Add(new Command() { command = "/add-subject subject_name", description = "'Додати предмет'" });
             commands.Add(new Command() { command = "/edit-subject subject_name new_subject_name", description = "'Змінити назву предмета'" });
             commands.Add(new Command() { command = "/rollback-subject subject_name", description = "'Відновити предмет'" });

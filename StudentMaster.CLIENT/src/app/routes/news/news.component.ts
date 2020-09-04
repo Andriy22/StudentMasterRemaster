@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NewsModel } from '@shared/models/news-model';
 import { NewsService } from '@shared/services/news.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AdminService } from '@shared/services/admin.service';
 import { adminRole } from '@shared/config';
 import { ShowNewComponent } from './show-new/show-new.component';
 import { AddNewComponent } from './add-new/add-new.component';
@@ -19,7 +18,6 @@ export class NewsComponent implements OnInit {
   constructor(
     private newsService: NewsService,
     public dialog: MatDialog,
-    private adminService: AdminService,
     private authService: AuthService
   ) {}
 
@@ -29,6 +27,7 @@ export class NewsComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin = this.authService.hasRole(adminRole);
+    this.getNews();
   }
 
   getNews() {

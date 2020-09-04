@@ -1,7 +1,10 @@
-<h2 mat-dialog-title>
-  <mat-form-field class="col-12" appearance="fill">
+<h1 mat-dialog-title>
+  Редагування розкладу
+</h1>
+<div mat-dialog-content>
+  <mat-form-field class="col-12 col-md-4">
     <mat-label>День</mat-label>
-    <mat-select value="1">
+    <mat-select (selectionChange)="onDayChange($event)" value="1">
       <mat-option value="1">
         Понеділок
       </mat-option>
@@ -19,8 +22,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-</h2>
-<div mat-dialog-content>
   <table style="width: 100%" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -35,9 +36,12 @@
     <ng-container matColumnDef="subject">
       <th mat-header-cell *matHeaderCellDef>Предмет</th>
       <td mat-cell *matCellDef="let element">
-        <mat-form-field class="col-12" appearance="fill">
+        <mat-form-field class="col-12">
           <mat-label>Предмет</mat-label>
-          <mat-select [value]="element.subject">
+          <mat-select
+            (selectionChange)="editSchedule($event, element.id)"
+            [value]="element.subject"
+          >
             <mat-option *ngFor="let subject of classSubjects" [value]="subject.id">
               {{ subject.name }}
             </mat-option>

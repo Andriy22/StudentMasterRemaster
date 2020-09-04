@@ -7,10 +7,10 @@
       <h3 class="f-w-400">Тема</h3>
       <div class="m-l-8">
         <mat-radio-group [(ngModel)]="options.theme" (change)="sendOptions()">
-          <mat-radio-button disabled class="m-r-8" [value]="'light'"
+          <mat-radio-button disabled class="m-r-8" value="light"
             >Світла [Не стабільна]</mat-radio-button
           >
-          <mat-radio-button disabled class="m-r-8" [value]="'dark'">Темна</mat-radio-button>
+          <mat-radio-button class="m-r-8" value="dark">Темна</mat-radio-button>
         </mat-radio-group>
       </div>
 
@@ -18,8 +18,15 @@
       <div class="m-l-8">
         <mat-radio-group [(ngModel)]="options.debugMode" (change)="sendOptions()">
           <mat-radio-button disabled class="m-r-8" [value]="true">ENABLE</mat-radio-button>
-          <mat-radio-button disabled class="m-r-8" [value]="false">DISABLE</mat-radio-button>
+          <mat-radio-button class="m-r-8" [value]="false">DISABLE</mat-radio-button>
         </mat-radio-group>
+      </div>
+
+      <h3 class="f-w-400">Збірка</h3>
+      <div class="m-l-8">
+        <mat-slide-toggle disabled
+          >Використовувати INSIDER PREVIEW збірку (може не стабільно працювати)
+        </mat-slide-toggle>
       </div>
     </div>
   </mat-card-content>

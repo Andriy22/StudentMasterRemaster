@@ -11,26 +11,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ScheduleService {
   Schedule: BehaviorSubject<ScheduleModel[]>;
   constructor(private http: HttpClient, private Spinner: NgxSpinnerService) {
-    this.Schedule = new BehaviorSubject(null);
+    this.Schedule = new BehaviorSubject([]);
   }
   GetSchedule() {
-    this.Spinner.show();
-    this.http.get<ScheduleModel[]>(API + '/api/Class/get-schedule').subscribe(
-      x => {
-        this.Schedule.next(x);
-        this.Spinner.hide();
-      },
-      x => {
-        // if (x.status === 401) {
-        //   setTimeout(() => {
-        //     this.GetSchedule();
-        //   }, 1000);
-        // }
-        this.Spinner.hide();
-        // console.error('====================');
-        // console.log(x);
-        // console.error('====================');
-      }
-    );
+    return this.http.get<ScheduleModel[]>(API + '/api/Class/get-schedule');
   }
 }

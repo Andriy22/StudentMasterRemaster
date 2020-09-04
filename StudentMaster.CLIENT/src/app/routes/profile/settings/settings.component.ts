@@ -10,8 +10,6 @@ export class SettingsComponent implements OnInit {
   options = this.settings.getOptions();
   opened = false;
 
-  @Output() optionsEvent = new EventEmitter<object>();
-
   constructor(private settings: SettingsService) {}
 
   ngOnInit() {}
@@ -29,6 +27,6 @@ export class SettingsComponent implements OnInit {
   }
 
   sendOptions() {
-    this.optionsEvent.emit(this.options);
+    this.settings.updateOptions(this.options);
   }
 }

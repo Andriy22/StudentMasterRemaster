@@ -25,6 +25,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { TranslateLangService } from '@core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 export function TranslateLangServiceFactory(translateLangService: TranslateLangService) {
   return () => translateLangService.load();
 }
@@ -50,6 +52,7 @@ export function TranslateLangServiceFactory(translateLangService: TranslateLangS
       },
     }),
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     {

@@ -37,6 +37,8 @@ namespace StudentMaster.BLL.Interfaces
         void removeSubject(string subjectName);
         void rollbackSubject(string subjectName);
         void changeNameSubject(string oldName, string newName);
+        void editSchedule(int classId, int dayId, int subjectId, int position);
+        IEnumerable<ScheduleItemResult> getClassScheduleByDay(int classId, int dayId);
 
         void addNew(addNewViewModel model);
         void removeNew(int id);

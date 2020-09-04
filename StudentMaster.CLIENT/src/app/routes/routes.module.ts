@@ -16,6 +16,8 @@ import { NewsComponent } from './news/news.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AddNewComponent } from './news/add-new/add-new.component';
 import { ShowNewComponent } from './news/show-new/show-new.component';
+import { BugReportComponent } from './bug-report/bug-report.component';
+import { CheckBrowserComponent } from './check-browser/check-browser.component';
 const COMPONENTS = [
   DashboardComponent,
   LoginComponent,
@@ -33,7 +35,7 @@ const COMPONENTS_DYNAMIC = [ShowNewComponent, AddNewComponent];
 
 @NgModule({
   imports: [SharedModule, ChartsModule, RoutesRoutingModule, NgApexchartsModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ProgressChartComponent],
+  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ProgressChartComponent, BugReportComponent, CheckBrowserComponent],
   entryComponents: COMPONENTS_DYNAMIC,
 })
 export class RoutesModule {}

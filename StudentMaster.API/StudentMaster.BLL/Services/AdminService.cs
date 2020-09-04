@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using StudentMaster.BLL.DTO.dtoModels;
 using StudentMaster.BLL.DTO.dtoResults;
 using StudentMaster.BLL.Helpers;
@@ -29,8 +30,10 @@ namespace StudentMaster.BLL.Services
         private readonly IRepository<UserClasses> _teachersClassRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IRepository<TeacherSubject> _teacherSubjectRepository;
+        private readonly IRepository<Schedule> _scheduleRepository;
+        private readonly IRepository<ScheduleItem> _scheduleItemRepository;
 
-        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<New> newRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager, IRepository<TeacherSubject> teacherSubjectRepository)
+        public AdminService(IRepository<Class> classRepository, UserManager<User> userManager, IEmailService emailService, IRandomService randomService, IRepository<ConfirmCode> confirmCodeRepository, IRepository<User> userRepository, IRepository<New> newRepository, IRepository<ClassSubject> classSubjectRepository, IRepository<Subject> subjectRepository, IRepository<UserClasses> teachersClassRepository, RoleManager<IdentityRole> roleManager, IRepository<TeacherSubject> teacherSubjectRepository, IRepository<Schedule> scheduleRepository, IRepository<ScheduleItem> scheduleItemRepository)
         {
             _classRepository = classRepository;
             _userManager = userManager;
@@ -44,6 +47,8 @@ namespace StudentMaster.BLL.Services
             _teachersClassRepository = teachersClassRepository;
             _roleManager = roleManager;
             _teacherSubjectRepository = teacherSubjectRepository;
+            _scheduleRepository = scheduleRepository;
+            _scheduleItemRepository = scheduleItemRepository;
         }
 
         public async Task<bool> inviteUser(string email)
@@ -371,6 +376,79 @@ namespace StudentMaster.BLL.Services
             _userRepository.Edit(student);
 
             return true;
+        }
+
+        public void editSchedule(int classId, int dayId, int subjectId, int position)
+        {
+            string[] days = { "Пн.", "Вт.", "Ср.", "Чт.", "Пт." };
+            var cl = _classRepository.GetById(classId);
+            var subject = _subjectRepository.GetById(subjectId);
+
+            if (cl == null)
+                throw ErrorHelper.GetException("Клас не знайдено...", "404", "", 404);
+
+
+            var item = _scheduleItemRepository.GetQueryable(x => x.Position == position && x.schedule.Class == cl && x.schedule.Day == days[dayId - 1]).Include(x=>x.schedule).ThenInclude(x=>x.Class).FirstOrDefault();
+
+            if (item != null)
+                _scheduleItemRepository.Delete(item);
+                
+            var schedule = _scheduleRepository.GetQueryable(x => x.Class.Id == classId && x.Day == days[dayId - 1]).Include(x => x.Class).FirstOrDefault();
+            this._scheduleItemRepository.Add(new ScheduleItem()
+                {
+                    Position = position,
+                    Name = subject,
+                    schedule = schedule
+                });
+           
+
+          
+        }
+
+        public IEnumerable<ScheduleItemResult> getClassScheduleByDay(int classId, int dayId)
+        {
+            string[] days = { "Пн.", "Вт.", "Ср.", "Чт.", "Пт." };
+            var cl = _classRepository.GetById(classId);
+            var result = new List<ScheduleItemResult>();
+
+            if (cl == null)
+                throw ErrorHelper.GetException("Клас не знайдено...", "404", "", 404);
+
+            var schedule = _scheduleRepository.GetQueryable(x => x.Class.Id == classId).Include(x=>x.Class).Include(x=>x.Items).ToArray();
+            if (schedule.Length == 0)
+            {
+                foreach (var el in days)
+                    _scheduleRepository.Add(new Schedule()
+                    {
+                        Class = cl,
+                        Day = el
+                    });
+                return result;
+            }
+
+            foreach (var el in schedule.FirstOrDefault(x => x.Day == days[dayId - 1]).Items)
+            {
+                var subject = _scheduleItemRepository.GetQueryable(x => x.Id == el.Id).Include(x=>x.Name).FirstOrDefault().Name;
+                if (subject != null)
+                {
+                    result.Add(new ScheduleItemResult()
+                    {
+                        Id = subject.Id,
+                        Name = subject.Name,
+                        Pos = el.Position
+                    });
+                } else
+                {
+                    result.Add(new ScheduleItemResult()
+                    {
+                        Id = 0,
+                        Name = "",
+                        Pos = el.Position
+                    });
+                }
+               
+            }
+            return result;
         }
     }
 }

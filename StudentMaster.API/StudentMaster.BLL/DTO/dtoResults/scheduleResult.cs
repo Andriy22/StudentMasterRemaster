@@ -9,10 +9,10 @@ namespace StudentMaster.BLL.DTO.dtoResults
     {
         public scheduleResult()
         {
-            this.Items = new List<ScheduleItem>();
+            this.Items = new List<ScheduleItemResult>();
         }
         public int Id { get; set; }
         public string Day { get; set; }
-        public virtual ICollection<ScheduleItem> Items { get; set; }
+        public virtual ICollection<ScheduleItemResult> Items { get; set; }
     }
 }

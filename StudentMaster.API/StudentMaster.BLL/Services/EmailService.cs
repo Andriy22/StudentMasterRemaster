@@ -69,7 +69,7 @@ namespace StudentMaster.BLL.Services
                                     <tbody><tr>
                                         <th>
                                             <p style='text-align:left;font-weight:normal;margin-top:20px;font-family:Helvetica,Arial;font-size:28px;color:rgb(255,255,255)'>
-                                                Hello, <strong>{login}!</strong>
+                                                Привіт, <strong>{login}!</strong>
                                             </p>
                                         </th>
                                         <th></th>
@@ -110,7 +110,7 @@ namespace StudentMaster.BLL.Services
                                             <th>
                                                 <hr style='height:0;margin-bottom:20px;border:none;border-top:solid 2px rgb(59,119,139)'>
                                                 <p style='text-align:left;font-weight:normal;font-size:16px;color:rgb(97,97,97)'>
-                                                   This is an automatically generated message. Please do not reply. 
+                                                Це автоматично згенероване повідомлення. Будь ласка, не відповідайте.
                                                    
                                                  
                                                 </p>

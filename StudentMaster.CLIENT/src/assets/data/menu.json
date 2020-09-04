@@ -70,6 +70,13 @@
           "type": "link"
         }
       ]
+    },
+    {
+      "route": "report",
+      "name": "Повідомити про помилку",
+      "type": "link",
+      "icon": "bug_report",
+      "roles": ["User", "Admin", "Teacher"]
     }
   ]
 }

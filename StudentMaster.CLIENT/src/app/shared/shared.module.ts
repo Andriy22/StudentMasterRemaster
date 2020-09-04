@@ -19,6 +19,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { ErrorCodeComponent } from './components/error-code/error-code.component';
+import { UpdateVersionComponent } from './components/update-version/update-version.component';
 
 const THIRD_MODULES = [
   MaterialModule,
@@ -34,8 +35,13 @@ const THIRD_MODULES = [
   TranslateModule,
   NgxSpinnerModule,
 ];
-const COMPONENTS = [BreadcrumbComponent, PageHeaderComponent, ErrorCodeComponent];
-const COMPONENTS_DYNAMIC = [];
+const COMPONENTS = [
+  BreadcrumbComponent,
+  PageHeaderComponent,
+  ErrorCodeComponent,
+  UpdateVersionComponent,
+];
+const COMPONENTS_DYNAMIC = [UpdateVersionComponent];
 const DIRECTIVES = [];
 const PIPES = [];
 

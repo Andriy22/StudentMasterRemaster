@@ -18,6 +18,9 @@ import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 
 import { SettingsService, AppSettings } from '@core';
 import { AppDirectionality } from '@shared';
+import { SwUpdate } from '@angular/service-worker';
+import { MtxDialog } from '@ng-matero/extensions';
+import { UpdateVersionComponent } from '@shared/components/update-version/update-version.component';
 
 const MOBILE_MEDIAQUERY = 'screen and (max-width: 599px)';
 const TABLET_MEDIAQUERY = 'screen and (min-width: 600px) and (max-width: 959px)';
@@ -64,6 +67,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     private _overlay: OverlayContainer,
     private _element: ElementRef,
     private _settings: SettingsService,
+    private _swUpdate: SwUpdate,
+    private _mtxDialog: MtxDialog,
     @Optional() @Inject(DOCUMENT) private _document: Document,
     @Inject(Directionality) public dir: AppDirectionality
   ) {
@@ -91,6 +96,14 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     setTimeout(() => (this.contentWidthFix = this.collapsedWidthFix = false));
+    this._settings.isSettingsUpdate.subscribe(isUpdate => {
+      this.receiveOptions(this._settings.getOptions());
+    });
+    this._swUpdate.available.subscribe(() => {
+      this._mtxDialog.originalOpen(UpdateVersionComponent, {
+        width: '80%',
+      });
+    });
   }
 
   ngOnDestroy() {

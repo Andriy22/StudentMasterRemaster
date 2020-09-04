@@ -1,0 +1,7 @@
+<div class="container">
+  <h1 class="h-50" style="text-align: center; font-size: 36px;">
+    {{ msg | async }}
+  </h1>
+
+  <mat-progress-bar mode="determinate" [value]="this.timer"></mat-progress-bar>
+</div>

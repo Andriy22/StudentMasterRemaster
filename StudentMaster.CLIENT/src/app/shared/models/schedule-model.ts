@@ -5,6 +5,6 @@ export class ScheduleModel {
 
 export class ScheduleItem {
   name: string;
-  start: string;
-  end: string;
+  pos: number;
+  id: number;
 }
